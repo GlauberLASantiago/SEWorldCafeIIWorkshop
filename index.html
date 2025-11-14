@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Café - II Workshop Região Sudeste</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fontes do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Ícones (Font Awesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* Estilos customizados que complementam o Tailwind */
+        body {
+            font-family: 'Lato', sans-serif;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Classes de animação para transição dos slides */
+        .slide-content.fade-in {
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .slide-content.fade-out {
+            animation: fadeOut 0.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* Ajuste para telas menores */
+        @media (max-width: 768px) {
+            .slide-container {
+                padding: 2rem 1.5rem;
+                height: auto;
+                min-height: 90vh;
+            }
+            .content-area, .two-column, .tiled-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            .slide-title {
+                font-size: 1.75rem; /* 28px */
+                margin-bottom: 1.5rem;
+            }
+            h1 {
+                font-size: 3rem; /* 48px */
+            }
+            .subtitle {
+                font-size: 1.125rem; /* 18px */
+            }
+            p, li {
+                font-size: 1rem; /* 16px */
+            }
+            .tile, .image-tile {
+                width: 100%;
+            }
+            .image-wrapper {
+                height: 200px;
+            }
+            .number {
+                font-size: 6rem; /* 96px */
+            }
+            .navigation {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-200 text-[#434344] flex flex-col items-center justify-center min-h-screen p-4 md:p-8">
+
+    <!-- Contêiner principal do "slide" -->
+    <main class="slide-container relative w-full max-w-6xl bg-[#F9F9F9] rounded-lg shadow-2xl overflow-hidden flex flex-col justify-center p-8 md:p-16" style="height: 720px;">
+        
+        <!-- Elementos decorativos (barras de cor) -->
+        <div class="absolute top-0 left-0 w-full h-2.5 bg-[#1E40FB] z-20"></div>
+        <div class="absolute bottom-0 left-0 w-full h-2.5 bg-[#FECF2F] z-20"></div>
+
+        <!-- Área de conteúdo dinâmico -->
+        <div id="slide-content-area" class="w-full h-full flex flex-col justify-center">
+            <!-- O conteúdo do slide será injetado aqui pelo JavaScript -->
+        </div>
+
+    </main>
+
+    <!-- Navegação e Paginação -->
+    <nav class="navigation w-full max-w-6xl flex items-center justify-between mt-4">
+        <button id="prev-btn" class="bg-[#1E40FB] text-white py-2 px-5 rounded-lg shadow-md hover:bg-opacity-80 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            Anterior
+        </button>
+        
+        <span id="pagination" class="text-lg font-semibold text-[#434344]">
+            1 / 12
+        </span>
+        
+        <button id="next-btn" class="bg-[#1E40FB] text-white py-2 px-5 rounded-lg shadow-md hover:bg-opacity-80 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-2">
+            Próximo
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </nav>
+
+    <!-- Rodapé -->
+    <footer class="w-full max-w-6xl text-center text-sm text-gray-600 mt-4">
+        <p>Página formatada por IA baseada em um texto enviado pelo usuário.</p>
+        <p id="footer-date">Gerado em: 14/11/2025</p>
+    </footer>
+
+    <script>
+        // --- DADOS DOS SLIDES ---
+        // Todo o conteúdo foi movido para este array de objetos
+        const slidesData = [
+            // Slide 1: Título
+            {
+                title: "World Café",
+                content: `
+                <div class="text-center">
+                    <h1 class="text-7xl font-bold text-[#1E40FB]">World Café</h1>
+                    <p class="subtitle text-2xl mt-5">Como será no II Workshop Região Sudeste</p>
+                </div>
+                `
+            },
+            // Slide 2: O que é
+            {
+                title: "O que é o World Café?",
+                content: `
+                <div class="two-column grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-xl space-y-5">
+                        <p>O World Café é uma metodologia participativa voltada para o diálogo colaborativo e a construção coletiva de ideias.</p>
+                        <p>A proposta é criar um clima de conversa de café, em que as pessoas se sentem à vontade para falar, ouvir, registrar ideias e se inspirar a partir das experiências dos outros.</p>
+                        <p>No nosso workshop, faremos uma adaptação do World Café para um grupo grande, mantendo o espírito da metodologia.</p>
+                    </div>
+                    <div>
+                        <div class="image-wrapper rounded-xl overflow-hidden border-2 border-[#1E40FB]" style="height: 400px;">
+                            <img src="https://placehold.co/600x400/1E40FB/F9F9F9?text=World+Café" alt="Ilustração de pessoas conversando em uma mesa de café" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 3: Objetivo
+            {
+                title: "1. Objetivo da Dinâmica",
+                content: `
+                <div class="bullet-list max-w-4xl mx-auto">
+                    <p class="text-2xl font-bold text-[#434344] mb-5">O World Café vai nos ajudar a:</p>
+                    <ul class="space-y-5 text-xl">
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-ear-listen text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Promover escuta ativa</strong> entre os participantes;</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-share-nodes text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Compartilhar experiências</strong> das redes e dos municípios (o que já está acontecendo e o que ainda não começou);</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-users-gear text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Construir coletivamente</strong> propostas e estratégias ligadas aos nossos temas;</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-link text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Gerar conexões</strong> entre pessoas, contextos e práticas diferentes.</li>
+                    </ul>
+                    <p class="mt-8 border-2 border-[#FC0019] rounded-lg p-4 bg-[#F9F9F9] text-xl">
+                        <strong>Importante:</strong> não se trata de palestra nem de aula. É uma roda de conversa guiada, em que a voz principal é a dos participantes.
+                    </p>
+                </div>
+                `
+            },
+            // Slide 4: Estrutura Geral
+            {
+                title: "2. Estrutura Geral",
+                content: `
+                <div class="bullet-list max-w-4xl mx-auto">
+                    <ul class="space-y-6 text-xl">
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-map-pin text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i>Teremos <strong>7 salas identificadas por cores</strong> (ex.: azul, vermelha, verde etc.).</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-ticket text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i>Os participantes serão organizados em <strong>grupos por cor</strong>, definidos no credenciamento, por meio de um adesivo.</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-location-dot text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i>Cada pessoa ficará <strong>sempre na mesma sala/cor</strong> durante toda a dinâmica.</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-person-walking text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Quem circula</strong> entre as salas são os <strong>anfitriões</strong> (e, quando fizer sentido, os apoios), levando o tema e as sínteses das rodadas anteriores.</li>
+                    </ul>
+                </div>
+                `
+            },
+            // Slide 5: Estrutura Rodadas
+            {
+                title: "Estrutura das Rodadas",
+                content: `
+                <div class="two-column highlight-numbers-layout grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-center">
+                        <div class="number text-[150px] font-bold text-[#FC0019] leading-none">5</div>
+                        <div class="number-label text-2xl font-bold text-[#434344] mt-2">Rodadas de Conversa</div>
+                    </div>
+                    <div class="text-xl space-y-5">
+                        <p>Teremos 5 rodadas de conversa, porque trabalharemos 5 temas centrais (por exemplo: plano de ação, atualização curricular, formação docente, diagnóstico dos saberes digitais, perfil profissional, etc.).</p>
+                        <p class="font-bold text-[#FC0019] text-2xl">Cada rodada terá cerca de 20 minutos.</p>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 6: Como funciona (Parte 1)
+            {
+                title: "3. Como funciona cada rodada (Parte 1)",
+                content: `
+                <div class="tiled-content flex flex-col md:flex-row gap-8 justify-center">
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-door-open"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Chegada do Anfitrião</h3>
+                        <p class="text-lg">O anfitrião se apresenta rapidamente (nome e tema) e apresenta o apoio da sala.</p>
+                    </div>
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-bullseye"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Apresentação do Tema</h3>
+                        <p class="text-lg">Pede para pegarem a folha resumo. Faz uma breve leitura ou síntese para contextualizar.</p>
+                    </div>
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-question-circle"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Perguntas Norteadoras</h3>
+                        <p class="text-lg">Se o grupo estiver tímido, o anfitrião lança perguntas do material. A conversa flui naturalmente na maioria dos casos.</p>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 7: Como funciona (Parte 2)
+            {
+                title: "3. Como funciona cada rodada (Parte 2)",
+                content: `
+                <div class="tiled-content flex flex-col md:flex-row gap-8 justify-center">
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-comments"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Diálogo e Registros</h3>
+                        <p class="text-lg">Participantes compartilham experiências. Registram contribuições em post-its (palavras-chave, frases curtas) que são colados em uma folha A3.</p>
+                    </div>
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-face-smile"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Clima de Escuta</h3>
+                        <p class="text-lg">Escuta respeitosa, sem julgamento. Tanto quem "já faz" quanto quem "não começou" é bem-vindo.</p>
+                    </div>
+                    <div class="tile flex-1 flex flex-col items-center text-center p-6 rounded-xl border-2 border-[#1FD025] bg-[#F9F9F9]">
+                        <div class="icon text-5xl text-[#1FD025] mb-4"><i class="fa-solid fa-sync-alt"></i></div>
+                        <h3 class="text-2xl font-bold text-[#1FD025] mb-3">Síntese da Rodada Anterior</h3>
+                        <p class="text-lg">O anfitrião compartilha o que o grupo anterior discutiu (da folha A3) para conectar as rodadas e servir como inspiração.</p>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 8: Papel do Anfitrião
+            {
+                title: "4. Papel do Anfitrião(ã)",
+                content: `
+                <div class="two-column tiled grid md:grid-cols-2 gap-8">
+                    <div class="p-8 rounded-xl border-2 border-[#FECF2F] bg-[#F9F9F9]">
+                        <h3 class="text-3xl font-bold text-[#1E40FB] mb-4">O que faz?</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>Conduz a conversa: acolhe, explica, estimula, organiza.</li>
+                            <li>Não é palestrante: quem "fala mais" deve ser o grupo.</li>
+                            <li>Faz a ponte entre as rodadas, trazendo elementos das outras salas.</li>
+                        </ul>
+                    </div>
+                    <div class="p-8 rounded-xl border-2 border-[#FECF2F] bg-[#F9F9F9]">
+                        <h3 class="text-3xl font-bold text-[#1E40FB] mb-4">O que precisa?</h3>
+                        <ul class="list-disc list-inside space-y-3 text-lg">
+                            <li>Bom conhecimento do tema (ler materiais, assistir formações).</li>
+                            <li>Habilidade para propor boas perguntas e fazer conexões.</li>
+                            <li>Checar se alguma informação está muito equivocada.</li>
+                        </ul>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 9: Papel do Apoio
+            {
+                title: "4. Papel do Apoio",
+                content: `
+                <div class="two-column grid md:grid-cols-2 gap-12 items-center">
+                    <div class="text-lg space-y-3">
+                        <ul class="list-disc list-inside space-y-3">
+                            <li>Ajuda na organização prática da sala (post-its, canetas, folhas A3).</li>
+                            <li>Controla o tempo da rodada (cronômetro).</li>
+                            <li>Pode circular com a folha A3 para facilitar a colagem.</li>
+                            <li>Registra palavras-chave se alguém falar algo relevante e não anotar.</li>
+                            <li class="font-bold mt-2">Importante: Deve ter noção do tema, pois pode precisar assumir a conversa.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="image-wrapper rounded-xl overflow-hidden border-2 border-[#FECF2F]" style="height: 400px;">
+                            <img src="https://placehold.co/600x400/FECF2F/434344?text=Apoio" alt="Ícone de assistente com clipboard e relógio" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 10: Materiais
+            {
+                title: "5. Materiais que serão utilizados",
+                content: `
+                <div class="tiled-content flex flex-col md:flex-row gap-8 justify-center">
+                    <div class="image-tile flex-1 text-center">
+                        <div class="image-wrapper rounded-xl overflow-hidden border-2 border-[#FC0019] mb-4" style="height: 250px;">
+                            <img src="https://placehold.co/400x300/FC0019/F9F9F9?text=Materiais+1" alt="Post-its coloridos e canetas" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-lg font-semibold">Post-its e Canetas</p>
+                    </div>
+                    <div class="image-tile flex-1 text-center">
+                        <div class="image-wrapper rounded-xl overflow-hidden border-2 border-[#FC0019] mb-4" style="height: 250px;">
+                            <img src="https://placehold.co/400x300/FC0019/F9F9F9?text=Materiais+2" alt="Folhas de papel A3" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-lg font-semibold">Folhas A3 e Resumos</p>
+                    </div>
+                    <div class="image-tile flex-1 text-center">
+                        <div class="image-wrapper rounded-xl overflow-hidden border-2 border-[#FC0019] mb-4" style="height: 250px;">
+                            <img src="https://placehold.co/400x300/FC0019/F9F9F9?text=Materiais+3" alt="Guloseimas em uma tigela" class="w-full h-full object-cover">
+                        </div>
+                        <p class="text-lg font-semibold">Guloseimas (para o clima de café)</p>
+                    </div>
+                </div>
+                `
+            },
+            // Slide 11: Combinados
+            {
+                title: "7. Combinados Importantes para a Equipe",
+                content: `
+                <div class="bullet-list max-w-3xl mx-auto">
+                    <ul class="space-y-5 text-xl">
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-stopwatch text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Cuidar do tempo</strong> com firmeza e carinho (20 min).</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-heart text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Manter o clima acolhedor</strong>, sem julgamentos.</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-not-equal text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Evitar comparações negativas</strong> entre redes.</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-microphone text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Garantir participação diversa</strong> (ouvir quem fala pouco).</li>
+                        <li class="flex items-start gap-4"><i class="fa-solid fa-book-open text-[#1E40FB] text-2xl pt-1 w-8 text-center"></i><strong>Usar os materiais de apoio</strong> para se preparar.</li>
+                    </ul>
+                </div>
+                `
+            },
+            // Slide 12: Fechamento
+            {
+                title: "Fechamento",
+                content: `
+                <div class="qa-layout text-center max-w-3xl mx-auto">
+                    <h2 class="text-7xl font-bold text-[#1E40FB] mb-6">Fechamento</h2>
+                    <p class="text-xl mb-6">Após as 5 rodadas, o anfitrião faz uma síntese final e abre para comentários gerais:</p>
+                    <p class="text-2xl italic text-[#434344] mb-6">
+                        "O que mais chamou atenção?"<br>
+                        "Que ideias ou práticas vocês querem levar?"
+                    </p>
+                    <p class="text-xl">O grupo então segue para a plenária de fechamento do evento.</p>
+                </div>
+                `
+            }
+        ];
+
+        // --- LÓGICA DE NAVEGAÇÃO ---
+        
+        let currentSlideIndex = 0;
+        const totalSlides = slidesData.length;
+
+        const contentArea = document.getElementById('slide-content-area');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const pagination = document.getElementById('pagination');
+        const footerDate = document.getElementById('footer-date');
+
+        /**
+         * Renderiza o slide com base no índice atual.
+         */
+        function renderSlide(index) {
+            const slide = slidesData[index];
+            
+            // Adiciona classe para animação de saída
+            contentArea.classList.add('fade-out');
+
+            // Espera a animação de saída terminar para trocar o conteúdo
+            setTimeout(() => {
+                let titleHtml = '';
+                // Oculta o H2 no primeiro slide (que já tem um H1)
+                if (index > 0) {
+                    titleHtml = `<h2 class="slide-title text-4xl font-bold text-[#FC0019] mb-10">${slide.title}</h2>`;
+                }
+
+                // Injeta o novo conteúdo
+                contentArea.innerHTML = `
+                    <div class="slide-content h-full flex flex-col justify-center">
+                        ${titleHtml}
+                        <div class="content-area flex-grow flex items-center">
+                            ${slide.content}
+                        </div>
+                    </div>
+                `;
+
+                // Remove a classe de saída e adiciona a de entrada
+                contentArea.classList.remove('fade-out');
+                contentArea.classList.add('fade-in');
+
+                // Atualiza os controles
+                updateControls(index);
+            }, 500); // Deve corresponder à duração da animação CSS
+        }
+
+        /**
+         * Atualiza os botões de navegação e a paginação.
+         */
+        function updateControls(index) {
+            // Atualiza o texto da paginação
+            pagination.textContent = `${index + 1} / ${totalSlides}`;
+            
+            // Habilita/desabilita botões
+            prevBtn.disabled = index === 0;
+            nextBtn.disabled = index === totalSlides - 1;
+        }
+
+        /**
+         * Navega para o próximo slide.
+         */
+        function goToNextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                renderSlide(currentSlideIndex);
+            }
+        }
+
+        /**
+         * Navega para o slide anterior.
+         */
+        function goToPrevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                renderSlide(currentSlideIndex);
+            }
+        }
+
+        /**
+         * Define a data atual no rodapé.
+         */
+        function setFooterDate() {
+            const today = new Date();
+            footerDate.textContent = `Gerado em: ${today.toLocaleDateString('pt-BR')}`;
+        }
+
+        /**
+         * Inicializa a aplicação.
+         */
+        function init() {
+            // Adiciona eventos aos botões
+            nextBtn.addEventListener('click', goToNextSlide);
+            prevBtn.addEventListener('click', goToPrevSlide);
+
+            // Permite navegação pelas teclas de seta
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    goToNextSlide();
+                } else if (e.key === 'ArrowLeft') {
+                    goToPrevSlide();
+                }
+            });
+
+            // Define a data do rodapé
+            setFooterDate();
+            
+            // Renderiza o primeiro slide
+            // Envolve em um setTimeout para garantir que a classe 'fade-in' funcione na carga inicial
+            setTimeout(() => {
+                renderSlide(0);
+            }, 100);
+        }
+
+        // Inicia a aplicação quando o DOM estiver pronto
+        document.addEventListener('DOMContentLoaded', init);
+
+    </script>
+</body>
+</html>
